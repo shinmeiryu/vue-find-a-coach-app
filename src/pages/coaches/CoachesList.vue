@@ -10,8 +10,10 @@
       <base-card>
         <div class="controls">
           <base-button @click="loadCoaches(true)" mode="outline">Refresh</base-button>
-          <!--<base-button link to="/register" v-if="!isCoach && !isLoading"> //Removed condition because of false positive -->
-          <base-button link to="/register">
+          <base-button link to="/auth?redirect=register" v-if="!isLoggedIn">Login to register as Coach</base-button>
+          <!-- //Removed condition because of false positive-->
+          <base-button link to="/register" v-if="isLoggedIn && !isCoach && !isLoading">
+          <!--<base-button link to="/register">-->
             Register Coach
           </base-button>
         </div>
@@ -54,6 +56,9 @@ export default {
     }
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
     isCoach() {
       return this.$store.getters['coaches/isCoach'];
     },
